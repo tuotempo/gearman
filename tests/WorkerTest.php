@@ -3,14 +3,14 @@ namespace MHlavac\Gearman\tests;
 
 use MHlavac\Gearman\Worker;
 
-class WorkerTest extends \PHPUnit_Framework_TestCase
+class WorkerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Worker
      */
     protected $worker;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->worker = new Worker();
     }
@@ -113,7 +113,7 @@ class WorkerTest extends \PHPUnit_Framework_TestCase
         };
 
         $worker = new Worker();
-        $worker->addServer();
+        $worker->addServer('host.docker.internal');
         $worker->addFunction('replace', $function);
         $worker->addFunction('long_task', $function2);
 

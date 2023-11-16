@@ -344,11 +344,13 @@ class Client implements ServerSetting
         $s = $this->getConnection();
         Connection::send($s, $type, $params);
 
-        if (!is_array(Connection::$waiting[(int) $s])) {
-            Connection::$waiting[(int) $s] = array();
+        $socketID = Connection::getSocketID($s);
+
+        if (!is_array(Connection::$waiting[$socketID])) {
+            Connection::$waiting[$socketID] = array();
         }
 
-        array_push(Connection::$waiting[(int) $s], $task);
+        array_push(Connection::$waiting[$socketID], $task);
     }
 
     /**
@@ -451,7 +453,7 @@ class Client implements ServerSetting
             $task->fail();
             break;
         case 'job_created':
-            $task = array_shift(Connection::$waiting[(int) $s]);
+            $task = array_shift(Connection::$waiting[Connection::getSocketID($s)]);
             $task->handle = $resp['data']['handle'];
             if ($task->type == Task::JOB_BACKGROUND) {
                 $task->finished = true;

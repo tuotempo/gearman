@@ -174,9 +174,16 @@ class Connection
             );
         }
 
-        self::$waiting[(int) $socket] = array();
+        self::$waiting[self::getSocketID($socket)] = array();
 
         return $socket;
+    }
+
+    public static function getSocketID($socket)
+    {
+        return is_object($socket)
+            ? spl_object_hash($socket)
+            : (int) $socket;
     }
 
     /**
@@ -374,9 +381,19 @@ class Connection
      */
     public static function isConnected($conn)
     {
-        return (is_null($conn) !== true &&
-                is_resource($conn) === true &&
-                strtolower(get_resource_type($conn)) == 'socket');
+        return (is_null($conn) !== true
+            && self::getConnectionType($conn) === 'socket');
+    }
+
+    public static function getConnectionType($conn)
+    {
+        if (is_resource($conn)) {
+            return strtolower(get_resource_type($conn));
+        } elseif (is_object($conn)) {
+            return strtolower(get_class($conn));
+        }
+
+        return null;
     }
 
     /**

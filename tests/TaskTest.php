@@ -18,7 +18,7 @@ use MHlavac\Gearman\Task;
  * @link       http://pear.php.net/package/Net_Gearman
  * @since      0.2.4
  */
-class TaskTest extends \PHPUnit_Framework_TestCase
+class TaskTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Unknown job type.

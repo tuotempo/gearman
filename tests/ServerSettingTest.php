@@ -5,7 +5,7 @@ use MHlavac\Gearman\Client;
 use MHlavac\Gearman\ServerSetting;
 use MHlavac\Gearman\Worker;
 
-class ServerSettingTest extends \PHPUnit_Framework_TestCase
+class ServerSettingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param ServerSetting $serverSetting
