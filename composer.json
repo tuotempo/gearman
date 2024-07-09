@@ -34,7 +34,10 @@
         "phpunit/phpunit": "^8"
     },
     "autoload": {
-        "psr-4": { "MHlavac\\Gearman\\": "src/" }
+        "psr-4": {
+            "MHlavac\\Gearman\\": "src/",
+            "MHlavac\\Gearman\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {
