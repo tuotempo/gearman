@@ -130,10 +130,11 @@ class Connection
      *
      * @param string $host    e.g. 127.0.0.1 or 127.0.0.1:7003
      * @param int    $timeout Timeout in milliseconds
-     *
-     * @throws \MHlavac\Gearman\Exception when it can't connect to server
+     * @param int    $conn_timeout Timeout in sec of single socket connection
      *
      * @return resource A connection to a Gearman server
+     *
+     * @throws \MHlavac\Gearman\Exception when it can't connect to server
      *
      * @see MHlavac\Gearman\Connection::$waiting
      * @see MHlavac\Gearman\Connection::$magic
