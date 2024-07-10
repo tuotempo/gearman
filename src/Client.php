@@ -57,7 +57,6 @@ class Client implements ServerSetting
     /**
      * @var int The timeout for Gearman connections
      */
-    protected $timeout = 1000;
 
     /**
      * @param int $timeout Timeout in microseconds
@@ -66,9 +65,13 @@ class Client implements ServerSetting
      *
      * @see MHlavac\Gearman\Connection
      */
-    public function __construct($timeout = 1000)
+    public function __construct(
+        /** The timeout for Gearman connections */
+        protected int $timeout = 1000,
+        /** The timeout for single socket connection */
+        protected int $conn_timeout = 3
+        )
     {
-        $this->timeout = $timeout;
     }
 
     public function getServers()
@@ -364,7 +367,7 @@ class Client implements ServerSetting
     public function runSet(Set $set, $timeout = null)
     {
         foreach ($this->getServers() as $server) {
-            $conn = Connection::connect($server, $timeout);
+            $conn = Connection::connect($server, $timeout, $this->conn_timeout);
             if (!Connection::isConnected($conn)) {
                 unset($this->servers[$server]);
                 continue;

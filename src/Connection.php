@@ -82,8 +82,6 @@ class Connection
 
     const DEFAULT_PORT = 4730;
 
-    public const CONNECTION_TIMEOUT_SEC = 3;
-
     /**
      * The reverse of MHlavac\Gearman\Connection::$commands.
      *
@@ -141,7 +139,7 @@ class Connection
      * @see MHlavac\Gearman\Connection::$magic
      * @see MHlavac\Gearman\Connection::$commands
      */
-    public static function connect($host = 'localhost', $timeout = 2000)
+    public static function connect($host = 'localhost', $timeout = 2000, int $conn_timeout = 3)
     {
         if (!count(self::$magic)) {
             foreach (self::$commands as $cmd => $i) {
@@ -160,8 +158,8 @@ class Connection
         $start = microtime(true);
         do {
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => self::CONNECTION_TIMEOUT_SEC, 'usec' => 0));
-            socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => self::CONNECTION_TIMEOUT_SEC, 'usec' => 0));
+            socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
+            socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
             $socket_connected = @socket_connect($socket, $host, $port);
             if ($socket_connected) {
                 socket_set_nonblock($socket);

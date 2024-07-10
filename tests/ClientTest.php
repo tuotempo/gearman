@@ -42,14 +42,16 @@ class ClientTest extends TestCaseBase
 
     public function testTimeout()
     {
-        $client = new Client();
+        $timeout = 1;
+
+        $client = new Client(conn_timeout: $timeout);
         $client->addServer(self::SERVER_ADDRESS);
         $task = $client->doBackground('test', '');
         self::assertInstanceOf(Task::class, $task);
 
         //-------------------------------------------------------//
 
-        sleep(Connection::CONNECTION_TIMEOUT_SEC + 1);
+        sleep($timeout + 1);
         $task = $client->doBackground('test', '');
         self::assertInstanceOf(Task::class, $task);
 
@@ -57,7 +59,7 @@ class ClientTest extends TestCaseBase
         // Invalid address
         $start_time = time();
         try {
-            $client = new Client();
+            $client = new Client(conn_timeout: $timeout);
             $client->addServer('10.10.10.10');
             $task =  $client->doBackground('test', '');
             self::fail("Timeout not fired");
@@ -66,7 +68,7 @@ class ClientTest extends TestCaseBase
             self::assertInstanceOf(CouldNotConnectException::class, $ex, $ex->getMessage());
             echo $ex->getMessage();
             $elapsed_time = time() - $start_time;
-            self::assertLessThan(5, $elapsed_time);
+            self::assertLessThan($timeout + 1, $elapsed_time);
         }
 
     }
