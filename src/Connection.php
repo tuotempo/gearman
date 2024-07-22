@@ -159,8 +159,8 @@ class Connection
         $start = microtime(true);
         do {
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
-            socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
+//            socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
+//            socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $conn_timeout, 'usec' => 0));
             $socket_connected = @socket_connect($socket, $host, $port);
             if ($socket_connected) {
                 socket_set_nonblock($socket);
